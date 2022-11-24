@@ -1,3 +1,14 @@
+:root {
+    --faint-purple: rgb(88, 84, 122);
+    --purple: rgb(53, 2, 196);
+    --dark-purple: rgb(17, 5, 68);
+    --black: rgb(31, 31, 31);
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+}
+
 @keyframes scanLiness {
     0% { 
         background-position: 0px 0px;
@@ -37,10 +48,14 @@
 .splash {
     background-color: #060606;
     position: fixed;
+    z-index: 10;
     height: 100vh;
     width: 100vw;
     margin: 0;
     top: 0;
     left: 0;
     transition: opacity 0.5s;
+}
+.splash h1 {
+    color: aliceblue
 }

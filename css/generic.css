@@ -3,3 +3,34 @@
     align-items: center;
     justify-content: center;
 }
+
+.window {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    z-index: 1;
+    
+    border: 5px ridge var(--faint-purple);
+
+    min-height: 200px;
+    min-width: 400px;
+}
+.window-title {
+    display: flex;
+    background-color: var(--purple);
+    align-items: center;
+    flex: 1;
+    border-bottom: 5px ridge var(--faint-purple);
+}
+.window-title p {
+    margin: 0;
+    margin-left: 10px;
+    font-size: small;
+    user-select: none;
+    color: aliceblue;
+}
+.window-content {
+    background-color: var(--black);
+    flex: 10;
+}
