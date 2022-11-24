@@ -6,14 +6,36 @@ splashScreen.addEventListener('click',() => {
     }, 500);
 })
 
-const windows = document.querySelectorAll('.window')
+let windows = Array.from(document.querySelectorAll('.window'))
+
+windows.push(createWindow())
+document.body.appendChild(windows[2])
+
 for(i = 0;i < windows.length;i++) {
     makeDraggable(windows[i])
 }
 
-var lastClicked
+function createWindow() {
+    let window = document.createElement("div")
+    window.classList.add("window")
+    
+    let windowTitle = document.createElement('div')
+    windowTitle.classList.add('window-title')
+    let pTitle = document.createElement('p')
+    pTitle.innerText = 'Window'
+    windowTitle.append(pTitle)
+
+    let windowContent = document.createElement('div')
+    windowContent.classList.add('window-content')
+    
+    window.append(windowTitle, windowContent)
+
+    return window
+}
+
+let lastClicked
 function makeDraggable(element) {
-    var x1 = 0, y1 = 0, x2 = 0, y2 = 0
+    let x1 = 0, y1 = 0, x2 = 0, y2 = 0
     if (element.firstElementChild) {
         element.firstElementChild.onmousedown = startDrag
     }
