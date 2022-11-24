@@ -19,17 +19,16 @@ function makeDraggable(element) {
     }
     element.onmousedown = adjustFocus
 
-    function adjustFocus (e) {
-        var clickedWindow = e.target.parentElement 
-        clickedWindow.style.zIndex = "2"
-        if (lastClicked !== undefined && clickedWindow != lastClicked) {
+    function adjustFocus() {
+        element.style.zIndex = "2"
+        if (lastClicked !== undefined && element != lastClicked) {
             lastClicked.style.zIndex = "1"
         }
-        lastClicked = clickedWindow
+        lastClicked = element
     }
 
     function startDrag (e) {
-        e.target.style.backgroundColor = "var(--dark-purple)"
+        element.firstElementChild.style.backgroundColor = "var(--dark-purple)"
         x1 = e.clientX
         y1 = e.clientY
 
@@ -46,7 +45,7 @@ function makeDraggable(element) {
         element.style.top = (element.offsetTop - y2) + 'px'
     }
     function endDrag(e) {
-        e.target.style.backgroundColor = "var(--purple)"
+        element.firstElementChild.style.backgroundColor = "var(--purple)"
         document.onmouseup = null
         document.onmousemove = null
     }
