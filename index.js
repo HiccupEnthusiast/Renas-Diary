@@ -8,8 +8,10 @@ splashScreen.addEventListener('click',() => {
 
 let nTypeA = 0
 let nTypeB = 0
-//let windows = Array.from(document.querySelectorAll('.window'))
+
 let windows = new Array
+let bar = document.querySelector('.task-bar')
+
 
 windows.push(createWindow("type-a"))
 windows.push(createWindow("type-a"))
@@ -22,6 +24,7 @@ for(i = 0;i < windows.length;i++) {
     windows[i].style.zIndex = i + 1
     drawWindows(windows[i])
 }
+
 
 function createWindow(winType) {
     let window = document.createElement('div')
@@ -37,16 +40,50 @@ function createWindow(winType) {
 
     let windowTitle = document.createElement('div')
     windowTitle.classList.add('window-title')
-
+    
     let pTitle = document.createElement('p')
     pTitle.innerText = window.id
     windowTitle.append(pTitle)
+    
+    let closeBtn = document.createElement('button')
+    closeBtn.addEventListener('click', (e) => {
+        let winParent = closeBtn.parentElement.parentElement
+        let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
+        
+        associatedTask.remove()
+        winParent.remove()
+    })
+    windowTitle.append(closeBtn)
 
     let windowContent = document.createElement('div')
     windowContent.classList.add('window-content')
     
 
     window.append(windowTitle, windowContent)
+    
+    let barElement = document.createElement('div')
+    barElement.classList.add('task')
+    barElement.id = 'task-' + winType + '-' + winCounter
+    
+    let pTask = document.createElement('p')
+    pTask.innerText = winType + '(' + winCounter + ')'
+    barElement.append(pTask)
+    barElement.addEventListener('mousedown', () => {
+        barElement.style.backgroundColor = 'var(--faint-purple)'
+        barElement.style.border = '5px inset var(--faint-purple)'
+    })
+    barElement.addEventListener('mouseup', () => {
+        let associatedWin = document.getElementById(barElement.id.replace('task', 'win'))
+        associatedWin.classList.toggle('invisible')
+        barElement.style.backgroundColor = 'var(--purple)'
+        barElement.style.border = '5px outset var(--purple)'
+    })
+    barElement.addEventListener('mouseout', () => {
+        barElement.style.backgroundColor = 'var(--purple)'
+        barElement.style.border = '5px outset var(--purple)'
+    })
+
+    bar.append(barElement)
 
     return window
 }

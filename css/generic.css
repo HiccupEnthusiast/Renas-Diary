@@ -20,6 +20,7 @@
     display: flex;
     background-color: var(--purple);
     align-items: center;
+    justify-content: space-between;
     flex: 1;
     border-bottom: 5px ridge var(--faint-purple);
 }
@@ -30,7 +31,21 @@
     user-select: none;
     color: aliceblue;
 }
+.window-title button {
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    margin-right: 5px;
+    background:transparent url('../img/close-btn.png');
+    border: 0;
+}
+.window-title button:active {
+    filter: saturate(300%) brightness(70%) hue-rotate(180deg);
+}
 .window-content {
     background-color: var(--black);
     flex: 10;
+}
+.invisible {
+    display: none;
 }

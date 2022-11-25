@@ -7,6 +7,9 @@
 
 body {
     font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+    margin: 0;
+    background-color: var(--black);
 }
 
 @keyframes scanLiness {
@@ -58,4 +61,34 @@ body {
 }
 .splash h1 {
     color: aliceblue
+}
+
+.task-bar {
+    min-height: 25px;
+    width: 100vw;
+    margin: 0;
+    bottom: 0;
+    left: 0;
+    padding-right: 20px;
+    padding-left: 5px;
+    position: absolute;
+    z-index: 3;
+
+    display: flex;
+    gap: 5px;
+
+    background-color: var(--dark-purple);
+    border-top: 5px ridge var(--faint-purple);
+}
+.task {
+    background-color: var(--purple);
+    width: 100px;
+    flex-shrink: 1;
+    border: 5px outset var(--purple);
+}
+.task p {
+    margin: 0;
+    font-size: smaller;
+    color: aliceblue;
+    user-select: none;
 }
