@@ -13,6 +13,7 @@ document.body.appendChild(windows[2])
 
 for(i = 0;i < windows.length;i++) {
     makeDraggable(windows[i])
+    windows[i].style.zIndex = i + 1
 }
 
 function createWindow() {
@@ -33,7 +34,6 @@ function createWindow() {
     return window
 }
 
-let lastClicked
 function makeDraggable(element) {
     let x1 = 0, y1 = 0, x2 = 0, y2 = 0
     if (element.firstElementChild) {
@@ -42,11 +42,17 @@ function makeDraggable(element) {
     element.onmousedown = adjustFocus
 
     function adjustFocus() {
-        element.style.zIndex = "2"
-        if (lastClicked !== undefined && element != lastClicked) {
-            lastClicked.style.zIndex = "1"
-        }
-        lastClicked = element
+        let totalWindows = String(windows.length)
+        let oldIndex = element.style.zIndex
+        console.log(element)
+
+        windows.forEach(win => {
+            if (win.style.zIndex > oldIndex) {
+                console.log("yippie")
+                win.style.zIndex -= 1
+            }
+        });
+        element.style.zIndex = totalWindows
     }
 
     function startDrag (e) {
