@@ -6,32 +6,52 @@ splashScreen.addEventListener('click',() => {
     }, 500);
 })
 
-let windows = Array.from(document.querySelectorAll('.window'))
+let nTypeA = 0
+let nTypeB = 0
+//let windows = Array.from(document.querySelectorAll('.window'))
+let windows = new Array
 
-windows.push(createWindow())
-document.body.appendChild(windows[2])
+windows.push(createWindow("type-a"))
+windows.push(createWindow("type-a"))
+
+windows.push(createWindow("type-b"))
+windows.push(createWindow("type-b"))
 
 for(i = 0;i < windows.length;i++) {
     makeDraggable(windows[i])
     windows[i].style.zIndex = i + 1
+    drawWindows(windows[i])
 }
 
-function createWindow() {
-    let window = document.createElement("div")
-    window.classList.add("window")
+function createWindow(winType) {
+    let window = document.createElement('div')
+    let winCounter
+    window.classList.add('window')
+    if (winType == 'type-a') {
+        winCounter = ++nTypeA
+    } else if (winType == 'type-b') {
+        winCounter = ++nTypeB
+    }
+    window.id = 'win-' + winType + '-' + winCounter
     
+
     let windowTitle = document.createElement('div')
     windowTitle.classList.add('window-title')
+
     let pTitle = document.createElement('p')
-    pTitle.innerText = 'Window'
+    pTitle.innerText = window.id
     windowTitle.append(pTitle)
 
     let windowContent = document.createElement('div')
     windowContent.classList.add('window-content')
     
+
     window.append(windowTitle, windowContent)
 
     return window
+}
+function drawWindows(win) {
+    document.body.append(win)
 }
 
 function makeDraggable(element) {
@@ -44,11 +64,9 @@ function makeDraggable(element) {
     function adjustFocus() {
         let totalWindows = String(windows.length)
         let oldIndex = element.style.zIndex
-        console.log(element)
 
         windows.forEach(win => {
             if (win.style.zIndex > oldIndex) {
-                console.log("yippie")
                 win.style.zIndex -= 1
             }
         });
