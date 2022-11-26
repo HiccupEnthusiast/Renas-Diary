@@ -50,6 +50,7 @@ function createWindow(winType) {
         let winParent = closeBtn.parentElement.parentElement
         let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
         
+        windows.splice(windows.indexOf(winParent), 1)
         associatedTask.remove()
         winParent.remove()
     })
