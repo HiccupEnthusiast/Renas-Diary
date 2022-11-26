@@ -22,7 +22,7 @@ windows.push(createWindow("type-b"))
 for(i = 0;i < windows.length;i++) {
     makeDraggable(windows[i])
     windows[i].style.zIndex = i + 1
-    drawWindows(windows[i])
+    drawWindows(windows[i], 200, 200)
 }
 
 
@@ -88,9 +88,9 @@ function createWindow(winType) {
 
     return window
 }
-function drawWindows(win) {
-    win.style.top = '200px'
-    win.style.left = '200px'
+function drawWindows(win, x, y) {
+    win.style.top = y + 'px'
+    win.style.left = x + 'px'
     document.body.append(win)
 }
 
