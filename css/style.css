@@ -9,7 +9,6 @@ body {
     font-family: 'Courier New', Courier, monospace;
     overflow: hidden;
     margin: 0;
-    background-color: var(--black);
 }
 
 @keyframes scanLiness {
@@ -47,6 +46,13 @@ body {
     animation-direction: normal, alternate;
 }
 
+.background {
+    height: 100vh;
+    width: 100vw;
+    background-position: center;
+    background-size: center;
+    background-image: url(../img/wallpaper.png);
+}
 
 .splash {
     background-color: #060606;

@@ -88,6 +88,8 @@ function createWindow(winType) {
     return window
 }
 function drawWindows(win) {
+    win.style.top = '200px'
+    win.style.left = '200px'
     document.body.append(win)
 }
 
