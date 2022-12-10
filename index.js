@@ -6,34 +6,47 @@ splashScreen.addEventListener('click',() => {
     }, 500);
 })
 
-let nTypeA = 0
-let nTypeB = 0
+// Counter for each type of window and icon
+let wTypeA = 0
+let iTypeA = 0
 
+let wTypeB = 0
+let iTypeB = 0
+
+// References and abstracions to DOM objects
 let windows = new Array
 let bar = document.querySelector('.task-bar')
+let iconGrid = document.querySelector('.icons')
+let icons = document.querySelectorAll('.icon')
+
+iconGrid.append(createIcon("type_a"))
+iconGrid.append(createIcon("type_b"))
 
 
-windows.push(createWindow("type-a"))
-windows.push(createWindow("type-a"))
-
-windows.push(createWindow("type-b"))
-windows.push(createWindow("type-b"))
-
+// TODO
 for(i = 0;i < windows.length;i++) {
-    makeDraggable(windows[i])
     windows[i].style.zIndex = i + 1
     drawWindows(windows[i], 200, 200)
 }
+icons.forEach(icon => {
+    icon.addEventListener('mouseover', () => {
+        icon.style.backgroundColor = 'var(--purple)'
+    })
+    icon.addEventListener('mouseout', () => {
+        icon.style.backgroundColor = 'transparent'
+    })
+});
 
 
 function createWindow(winType) {
     let window = document.createElement('div')
     let winCounter
     window.classList.add('window')
-    if (winType == 'type-a') {
-        winCounter = ++nTypeA
-    } else if (winType == 'type-b') {
-        winCounter = ++nTypeB
+
+    if (winType == 'type_a') {
+        winCounter = ++wTypeA
+    } else if (winType == 'type_b') {
+        winCounter = ++wTypeB
     }
     window.id = 'win-' + winType + '-' + winCounter
     
@@ -85,13 +98,54 @@ function createWindow(winType) {
     })
 
     bar.append(barElement)
-
+    windows.push(window)
     return window
 }
 function drawWindows(win, x, y) {
     win.style.top = y + 'px'
     win.style.left = x + 'px'
+    makeDraggable(win)
     document.body.append(win)
+}
+let iteration = 4
+let initialValue = iteration
+function createIcon(winType) {
+    let icon = document.createElement('div')
+    icon.classList.add('icon')
+
+    if (winType == 'type_a') {
+        iCounter = ++iTypeA
+    } else if (winType == 'type_b') {
+        iCounter = ++iTypeB
+    }
+    icon.id = 'icon-' + winType + '-' + iCounter
+    
+    let p = document.createElement('p')
+    p.innerText = winType
+    let img = document.createElement('img')
+
+    icon.append(img)
+    icon.append(p)
+
+    icon.addEventListener('mouseover', () => {
+        icon.style.backgroundColor = 'var(--purple)'
+    })
+    icon.addEventListener('mouseout', () => {
+        icon.style.backgroundColor = 'transparent'
+    })
+    icon.addEventListener('dblclick', () => {
+        document.body.style.cursor = "wait"
+        setTimeout(() => {
+            if (iteration>=(initialValue*4)) { iteration = initialValue}
+            let win = createWindow(icon.id.split("-")[1])
+            drawWindows(win, 100 + (15*(iteration%initialValue)),
+                            100 + (15*(iteration%initialValue)) + (30*(Math.ceil((iteration+1)/initialValue))-2))
+            document.body.style.cursor = "auto" 
+            ++iteration
+        }, 400)
+    })
+
+    return icon
 }
 
 function makeDraggable(element) {
