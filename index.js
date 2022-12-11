@@ -87,6 +87,7 @@ function createWindow(winType) {
         let folders = document.createElement('div')
         folders.style.position = 'static'
         folders.classList.add('icons')
+        folders.style.grid = 'auto auto auto / auto auto auto'
 
         let backBtn = document.createElement('button')
         navbar.append(backBtn)
