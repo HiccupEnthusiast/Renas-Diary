@@ -41,6 +41,9 @@
 .window-title button:active {
     filter: saturate(300%) brightness(70%) hue-rotate(180deg);
 }
+.window-title button:hover {
+    cursor: pointer;
+}
 .window-content {
     background-color: var(--black);
     flex: 10;
@@ -54,12 +57,17 @@
     position: absolute;
     padding: 10px;
     gap: 5px;
+    user-select: none;
 }
 .icon {
     display: flex;
     flex-direction: column;
     padding: 10px;
     align-items: center;
+}
+.icon:hover {
+    background-color: var(--purple);
+    cursor: pointer;
 }
 .icon img {
     height: 64px;

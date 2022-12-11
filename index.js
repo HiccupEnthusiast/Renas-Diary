@@ -179,14 +179,9 @@ function createIcon(winType) {
     icon.append(img)
     icon.append(p)
 
-    icon.addEventListener('mouseover', () => {
-        icon.style.backgroundColor = 'var(--purple)'
-    })
-    icon.addEventListener('mouseout', () => {
-        icon.style.backgroundColor = 'transparent'
-    })
     icon.addEventListener('dblclick', () => {
-        document.body.style.cursor = "wait"
+        document.body.style.cursor = 'wait'
+        icon.style.cursor = 'wait'
         setTimeout(() => {
             if (windows.length == 10){
                 let win = createWindow("error_oom")
@@ -202,6 +197,7 @@ function createIcon(winType) {
             drawWindows(win, 100 + (15*(iteration%initialValue)),
                             100 + (15*(iteration%initialValue)) + (30*(Math.ceil((iteration+1)/initialValue))-2))
             document.body.style.cursor = "auto" 
+            icon.style.cursor = 'pointer'
             ++iteration
         }, 400)
     })
