@@ -236,21 +236,27 @@ function createIcon(winType) {
     let icon = document.createElement('div')
     icon.classList.add('icon')
 
+    let img = document.createElement('img')
+
+
     if (winType.includes('error')) {
         iCounter = ++iTypeError
     } else if (winType == 'explorer') {
         iCounter = ++iTypeExplorer
+
+        img.src = './img/folder.png'
     }
     icon.id = 'icon-' + winType + '-' + iCounter
     
     let p = document.createElement('p')
     p.innerText = winType.charAt(0).toUpperCase() + winType.slice(1).replace('_', ' ')
-    let img = document.createElement('img')
 
     icon.append(img)
     icon.append(p)
 
     if (winType.includes('folder')) {
+        img.src = './img/folder.png'
+
         let destination = winType.split('_')[1]
         p.innerText = destination.charAt(0).toUpperCase() + destination.slice(1)
         icon.addEventListener('dblclick', () => {
