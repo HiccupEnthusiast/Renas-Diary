@@ -218,6 +218,10 @@ function getFoldersAt(location) {
             folders.push(createIcon('folder_04'))
             break;
         default:
+            let notFound = document.createElement('p')
+            notFound.innerText = ' < Nothing to be found here > '
+            notFound.style.color = 'aliceblue'
+            folders.push(notFound)
             break;
     }
 
