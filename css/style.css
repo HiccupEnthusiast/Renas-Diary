@@ -3,8 +3,12 @@
     --purple: rgb(53, 2, 196);
     --dark-purple: rgb(17, 5, 68);
     --black: rgb(31, 31, 31);
+    --darker-black: rgb(20,20,20);
 }
-
+@font-face {
+    font-family: Fixedsys Excelsior;
+    src: url('../fonts/FSEX302.ttf');
+}
 body {
     font-family: 'Courier New', Courier, monospace;
     overflow: hidden;
@@ -132,4 +136,31 @@ body {
 .error button:active {
     border: 5px inset var(--purple);
     background-image: url('../img/checker-pattern.png');
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border-bottom: 5px ridge var(--faint-purple);
+    background-color: var(--faint-purple);
+}
+.navbar p {
+    margin: 5px;
+    flex-grow: 2;
+    padding: 5px;
+    padding-left: 15px;
+    color: aliceblue;
+    background-color: var(--darker-black);
+    border: 3px inset var(--black);
+    font-family: "Fixedsys Excelsior", "FixedSys", monospace;
+}
+.navbar button {
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    margin-right: 5px;
+    margin-left: 15px;
+    background:transparent url('../img/up-btn.png');
+    border: 0;
 }
