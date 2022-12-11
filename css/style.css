@@ -100,3 +100,36 @@ body {
     color: aliceblue;
     user-select: none;
 }
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.error-body {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 100px 20px 10px;
+}
+.error img {
+    width: 40px;
+    height: 40px;
+}
+.error-body p {
+    color: aliceblue;
+    margin: 0;
+    user-select: none;
+    font-size: small;
+}
+.error button {
+    width: 150px;
+    color: aliceblue;
+    background-color: var(--purple);
+    border-radius: 0;
+    border: 5px outset var(--purple);
+    margin-bottom: 15px;
+}
+.error button:active {
+    border: 5px inset var(--purple);
+    background-image: url('../img/checker-pattern.png');
+}

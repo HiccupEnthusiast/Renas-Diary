@@ -7,8 +7,8 @@ splashScreen.addEventListener('click',() => {
 })
 
 // Counter for each type of window and icon
-let wTypeA = 0
-let iTypeA = 0
+let wTypeError = 0
+let iTypeError = 0
 
 let wTypeB = 0
 let iTypeB = 0
@@ -19,7 +19,7 @@ let bar = document.querySelector('.task-bar')
 let iconGrid = document.querySelector('.icons')
 let icons = document.querySelectorAll('.icon')
 
-iconGrid.append(createIcon("type_a"))
+iconGrid.append(createIcon("error_oom"))
 iconGrid.append(createIcon("type_b"))
 
 
@@ -43,23 +43,43 @@ function createWindow(winType) {
     let winCounter
     window.classList.add('window')
 
-    if (winType == 'type_a') {
-        winCounter = ++wTypeA
+    // Build containers for the window
+    let windowTitle = document.createElement('div')
+    windowTitle.classList.add('window-title')
+
+    let windowContent = document.createElement('div')
+    windowContent.classList.add('window-content')
+    
+    window.append(windowTitle, windowContent)
+
+
+    let pTitle = document.createElement('p')
+    windowTitle.append(pTitle)
+
+    let closeBtn = document.createElement('button')
+    windowTitle.append(closeBtn)
+
+
+
+
+    // Determine window type
+    if (winType.includes('error')) {
+        winCounter = ++wTypeError
+
+        let errType =  winType.split('_')[1]
+
+        windowContent.append(createError(errType))
+        pTitle.innerText = "An error has occured"
+
+
     } else if (winType == 'type_b') {
         winCounter = ++wTypeB
     }
-    window.id = 'win-' + winType + '-' + winCounter
+    window.id = 'win-' + winType + '-' + winCounter 
+    if (pTitle.innerText == '') { pTitle.innerText = window.id }
     
 
-    let windowTitle = document.createElement('div')
-    windowTitle.classList.add('window-title')
-    
-    let pTitle = document.createElement('p')
-    pTitle.innerText = window.id
-    windowTitle.append(pTitle)
-    
-    let closeBtn = document.createElement('button')
-    closeBtn.addEventListener('click', (e) => {
+    closeBtn.addEventListener('click', () => {
         let winParent = closeBtn.parentElement.parentElement
         let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
         
@@ -67,20 +87,16 @@ function createWindow(winType) {
         associatedTask.remove()
         winParent.remove()
     })
-    windowTitle.append(closeBtn)
 
-    let windowContent = document.createElement('div')
-    windowContent.classList.add('window-content')
-    
 
-    window.append(windowTitle, windowContent)
-    
+    // Create bar and tasks in it   
     let barElement = document.createElement('div')
     barElement.classList.add('task')
     barElement.id = 'task-' + winType + '-' + winCounter
     
     let pTask = document.createElement('p')
-    pTask.innerText = winType + '(' + winCounter + ')'
+    pTask.innerText = 
+        winType.charAt(0).toUpperCase() + winType.slice(1).replace('_', ' ')
     barElement.append(pTask)
     barElement.addEventListener('mousedown', () => {
         barElement.style.backgroundColor = 'var(--faint-purple)'
@@ -97,9 +113,43 @@ function createWindow(winType) {
         barElement.style.border = '5px outset var(--purple)'
     })
 
+    
+
     bar.append(barElement)
     windows.push(window)
     return window
+}
+function createError(errType) {
+    let constructedContent = document.createElement('div')
+    constructedContent.classList.add('error')
+
+    let errorBody = document.createElement('div')
+    errorBody.classList.add('error-body')
+    let img = document.createElement('img')
+    let message = document.createElement('p')
+    let acceptBtn = document.createElement('button')
+
+    errorBody.append(img)
+    errorBody.append(message)
+    constructedContent.append(errorBody)
+    constructedContent.append(acceptBtn)
+
+    if (errType == 'oom') {
+        img.src = './img/err.png'
+        message.innerText = 'Not enough memory to proceed.\nPlease consider closing some windows'
+    }
+    
+    acceptBtn.innerText = 'Accept'
+    acceptBtn.addEventListener('click', () => {
+        let winParent = acceptBtn.parentElement.parentElement.parentElement
+        let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
+        
+        windows.splice(windows.indexOf(winParent), 1)
+        associatedTask.remove()
+        winParent.remove()
+    })
+
+    return constructedContent
 }
 function drawWindows(win, x, y) {
     win.style.top = y + 'px'
@@ -107,14 +157,16 @@ function drawWindows(win, x, y) {
     makeDraggable(win)
     document.body.append(win)
 }
+
+
 let iteration = 4
 let initialValue = iteration
 function createIcon(winType) {
     let icon = document.createElement('div')
     icon.classList.add('icon')
 
-    if (winType == 'type_a') {
-        iCounter = ++iTypeA
+    if (winType.includes('error')) {
+        iCounter = ++iTypeError
     } else if (winType == 'type_b') {
         iCounter = ++iTypeB
     }
@@ -136,6 +188,15 @@ function createIcon(winType) {
     icon.addEventListener('dblclick', () => {
         document.body.style.cursor = "wait"
         setTimeout(() => {
+            if (windows.length == 10){
+                let win = createWindow("error_oom")
+                drawWindows(win, 100, 100)
+                document.body.style.cursor = "auto" 
+                return
+            } else if (windows.length > 10){
+                document.body.style.cursor = "auto" 
+                return
+            }
             if (iteration>=(initialValue*4)) { iteration = initialValue}
             let win = createWindow(icon.id.split("-")[1])
             drawWindows(win, 100 + (15*(iteration%initialValue)),
@@ -162,6 +223,9 @@ function makeDraggable(element) {
         windows.forEach(win => {
             if (win.style.zIndex > oldIndex) {
                 win.style.zIndex -= 1
+            }
+            if (win.style.zIndex < 1) {
+                win.style.zIndex = 1
             }
         });
         element.style.zIndex = totalWindows
