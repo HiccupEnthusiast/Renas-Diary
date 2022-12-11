@@ -164,3 +164,9 @@ body {
     background:transparent url('../img/up-btn.png');
     border: 0;
 }
+.navbar button:active {
+    filter: saturate(300%) brightness(70%) hue-rotate(180deg);
+}
+.navbar button:hover {
+    cursor: pointer;
+}
