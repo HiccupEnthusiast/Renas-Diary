@@ -6,6 +6,8 @@ splashScreen.addEventListener('click',() => {
     }, 500);
 })
 
+let wrongGuesses = 0
+
 // Counter for each type of window and icon
 let wTypeError = 0
 let iTypeError = 0
@@ -139,14 +141,7 @@ function createWindow(winType) {
     if (pTitle.innerText == '') { pTitle.innerText = window.id }
     
 
-    closeBtn.addEventListener('click', () => {
-        let winParent = closeBtn.parentElement.parentElement
-        let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
-        
-        windows.splice(windows.indexOf(winParent), 1)
-        associatedTask.remove()
-        winParent.remove()
-    })
+    closeBtn.addEventListener('click', deleteWindow)
 
 
     // Create bar and tasks in it   
@@ -179,6 +174,14 @@ function createWindow(winType) {
     windows.push(window)
     return window
 }
+function deleteWindow(e) {
+    let winParent = e.target.closest('.window')
+    let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
+        
+    windows.splice(windows.indexOf(winParent), 1)
+    associatedTask.remove()
+    winParent.remove()
+}
 function createError(errType) {
     let constructedContent = document.createElement('div')
     constructedContent.classList.add('error')
@@ -188,28 +191,115 @@ function createError(errType) {
     let img = document.createElement('img')
     let message = document.createElement('p')
     let acceptBtn = document.createElement('button')
+    acceptBtn.classList.add('acceptBtn')
 
     errorBody.append(img)
     errorBody.append(message)
     constructedContent.append(errorBody)
-    constructedContent.append(acceptBtn)
 
-    if (errType == 'oom') {
-        img.src = './img/err.png'
-        message.innerText = 'Not enough memory to proceed.\nPlease consider closing some windows'
+    switch (errType) {
+        case 'oom':
+            img.src = './img/err.png'
+            message.innerText = 'Not enough memory to proceed.\nPlease consider closing some windows'
+            break;
+        case 'auth':
+            img.src = './img/warn.png'
+            message.innerText = 'Please verify your indentity before proceeding'
+
+            let passDiv = document.createElement('div')
+            passDiv.classList.add('error-body')
+
+            let passP = document.createElement('p')
+            passP.innerText = 'Password: '
+
+            let passInput = document.createElement('input')
+            passInput.type = 'password'
+
+            passDiv.append(passP)
+            passDiv.append(passInput)
+
+            constructedContent.append(passDiv)
+            break;
+        default:
+            break;
     }
+
+    constructedContent.append(acceptBtn)
     
-    acceptBtn.innerText = 'Accept'
-    acceptBtn.addEventListener('click', () => {
-        let winParent = acceptBtn.parentElement.parentElement.parentElement
-        let associatedTask = document.getElementById(winParent.id.replace('win', 'task'))
-        
-        windows.splice(windows.indexOf(winParent), 1)
-        associatedTask.remove()
-        winParent.remove()
-    })
+    if (acceptBtn.innerText == '') {acceptBtn.innerText = 'Accept'}
+    acceptBtn.addEventListener('click', deleteWindow)
 
     return constructedContent
+}
+function getAuthentication(origin) {
+    let folder = origin.id.split('-')[1].split('_')[1]
+    let window = origin.closest('.window') 
+    let err = createWindow('error_auth')
+
+    let errAccept = err.querySelector('.acceptBtn')
+    let errInput = err.querySelector('input')
+    adjustFocus(err)
+
+    errAccept.removeEventListener('click', deleteWindow)
+    let pass
+    switch (folder) {
+        case 'investigations':
+            pass = 'sylk'
+            break;
+    
+        default:
+            break;
+    }
+    errAccept.addEventListener('click', (e) => {
+        let isCorrectPass = errInput.value.toLowerCase() == pass
+        let folders = getFoldersAt(folder)
+
+        document.body.style.cursor = 'wait'
+        errAccept.style.cursor = 'wait'
+
+        setTimeout(() => {
+            if (document.querySelector('#' + window.id) === null) {
+                if (isCorrectPass) {
+                    let createdWindow = createWindow('explorer')
+
+                    let foldersContainer = createdWindow.querySelector('.icons')
+                    createdWindow.querySelector('.navbar p').innerText = '~/documents/investigation' // TODO
+
+                    foldersContainer.innerText = ''
+
+                    folders.forEach(folder => {
+                        foldersContainer.append(folder)
+                    });
+
+                    drawWindows(createdWindow, 200, 200)
+                    deleteWindow(e)
+                } else {
+                    err.querySelector('.error-body img').src = './img/err.png'
+                    err.querySelector('.error-body p').innerText = 'Wrong password!'
+                    wrongGuess()
+                }
+            } else {    
+                if (isCorrectPass) {
+                    let foldersContainer = window.querySelector('.icons')
+                    window.querySelector('.navbar p').innerText += '/'+folder
+                    foldersContainer.innerText = ''
+    
+                    folders.forEach(folder => {
+                        foldersContainer.append(folder)
+                    });
+                    deleteWindow(e)
+                } else {
+                    err.querySelector('.error-body img').src = './img/err.png'
+                    err.querySelector('.error-body p').innerText = 'Wrong password!'
+                    wrongGuess()
+                }
+            }
+            document.body.style.cursor = 'auto'
+            errAccept.style.cursor = 'pointer'
+        }, 500)
+    })
+
+    return (err)
 }
 function getFoldersAt(location) {
     let folders = new Array
@@ -299,9 +389,8 @@ function createIcon(winType) {
             }
             
             if (destination == 'investigations') {
-                let err = createWindow('error_auth')
-                adjustFocus(err)
-                drawWindows(err, e.clientX, e.clientY)
+                
+                drawWindows(getAuthentication(icon), e.clientX-100, e.clientY-100)
 
                 return
             }
@@ -391,4 +480,25 @@ function adjustFocus(e) {
         }
     });
     topElement.style.zIndex = totalWindows
+}
+function wrongGuess() {
+    ++wrongGuesses
+    if (wrongGuesses > 5) {
+        let gameOverDiv = document.createElement('div')
+        gameOverDiv.classList.add('splash')
+        gameOverDiv.classList.add('center-content')
+
+        let scan = document.createElement('div')
+        scan.classList.add('scanlines')
+
+        let gameOverText = document.createElement('h1')
+        gameOverText.style.color = 'rgb(125,0,0)'
+
+        gameOverText.innerText = 'You\'ve been found'
+
+        document.body.innerText = ''
+        document.body.append(gameOverDiv)
+        gameOverDiv.append(gameOverText)
+        document.body.append(scan)
+    }
 }

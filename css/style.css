@@ -70,6 +70,7 @@ body {
     top: 0;
     left: 0;
     transition: opacity 0.5s;
+    user-select: none;
 }
 .splash h1 {
     color: aliceblue
@@ -106,14 +107,16 @@ body {
 }
 .error {
     display: flex;
+    width: 500px;
     flex-direction: column;
     align-items: center;
+    margin-top: 15px;
+    gap: 30px;
 }
 .error-body {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin: 15px 100px 20px 10px;
 }
 .error img {
     width: 40px;
@@ -136,6 +139,9 @@ body {
 .error button:active {
     border: 5px inset var(--purple);
     background-image: url('../img/checker-pattern.png');
+}
+.error button:hover {
+    cursor: pointer;
 }
 .navbar {
     display: flex;
