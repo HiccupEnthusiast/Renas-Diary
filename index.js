@@ -13,14 +13,17 @@ let iTypeError = 0
 let wTypeExplorer = 0
 let iTypeExplorer = 0
 
+let wTypeNotepad = 0
+let iTypeNotepad = 0
+
 // References and abstracions to DOM objects
 let windows = new Array
 let bar = document.querySelector('.task-bar')
 let iconGrid = document.querySelector('.icons')
 let icons = document.querySelectorAll('.icon')
 
-iconGrid.append(createIcon('error_oom'))
 iconGrid.append(createIcon('explorer'))
+iconGrid.append(createIcon('notepad'))
 
 
 // TODO
@@ -36,6 +39,13 @@ icons.forEach(icon => {
         icon.style.backgroundColor = 'transparent'
     })
 });
+
+
+let initialNote = createWindow('notepad')
+initialNote.querySelector('textarea')
+    .innerText = 'Greetings stranger! If you found this, then that means that I\'m most likely dead! The positive side is that if you haven\'t been blocked out from here, then that means that the agency hasn\'t found out yet. Which reminds me, be careful with where you dabble in here, it should be disconnected from the internet but you know how\'s the agency, and if they find out then having locked my computer is the least of our worries... Please bring to the light everything they have done detective, you\'re my last hope... I\'m sorry for getting you involved, but there\'s no way back, be safe and farewell, Stay alert, You never know what Lies in the darkness, the Key is to keep our eyes open.'
+
+drawWindows(initialNote, 200, 100)
 
 
 function createWindow(winType) {
@@ -77,6 +87,8 @@ function createWindow(winType) {
         window.style.width = '500px'
         window.style.height = '300px'
 
+        pTitle.innerText = 'File explorer'
+
         let navbar = document.createElement('div')
         navbar.classList.add('navbar')
 
@@ -115,6 +127,13 @@ function createWindow(winType) {
         });
 
         windowContent.append(folders)
+    } else if (winType == 'notepad') {
+        winCounter = ++wTypeNotepad
+        pTitle.innerText = 'Notepad'
+
+        let textArea = document.createElement('textarea')
+        textArea.spellcheck = false
+        windowContent.append(textArea)
     }
     window.id = 'win-' + winType + '-' + winCounter 
     if (pTitle.innerText == '') { pTitle.innerText = window.id }
@@ -250,6 +269,10 @@ function createIcon(winType) {
         iCounter = ++iTypeExplorer
 
         img.src = './img/folder.png'
+    } else if (winType == 'notepad') {
+        iCounter = ++iTypeNotepad
+
+        img.src = './img/notes.png'
     }
     icon.id = 'icon-' + winType + '-' + iCounter
     
@@ -264,7 +287,25 @@ function createIcon(winType) {
 
         let destination = winType.split('_')[1]
         p.innerText = destination.charAt(0).toUpperCase() + destination.slice(1)
-        icon.addEventListener('dblclick', () => {
+        icon.addEventListener('dblclick', (e) => {
+
+            if (windows.length == 10){
+                let err = createWindow("error_oom")
+                adjustFocus(err)
+                drawWindows(err, 100, 100)
+                return
+            } else if (windows.length > 10){
+                return
+            }
+            
+            if (destination == 'investigations') {
+                let err = createWindow('error_auth')
+                adjustFocus(err)
+                drawWindows(err, e.clientX, e.clientY)
+
+                return
+            }
+
             let parentContainer = icon.parentElement
             let navtext = parentContainer.parentElement.firstChild.firstChild
             parentContainer.innerText = ''
@@ -282,8 +323,9 @@ function createIcon(winType) {
             icon.style.cursor = 'wait'
             setTimeout(() => {
                 if (windows.length == 10){
-                    let win = createWindow("error_oom")
-                    drawWindows(win, 100, 100)
+                    let err = createWindow("error_oom")
+                    adjustFocus(err)
+                    drawWindows(err, 100, 100)
                     document.body.style.cursor = "auto" 
                     return
                 } else if (windows.length > 10){
@@ -292,6 +334,7 @@ function createIcon(winType) {
                 }
                 if (iteration>=(initialValue*4)) { iteration = initialValue}
                 let win = createWindow(icon.id.split("-")[1])
+                adjustFocus(win)
                 drawWindows(win, 100 + (15*(iteration%initialValue)),
                                 100 + (15*(iteration%initialValue)) + (30*(Math.ceil((iteration+1)/initialValue))-2))
                 document.body.style.cursor = "auto" 
@@ -310,21 +353,6 @@ function makeDraggable(element) {
         element.firstElementChild.onmousedown = startDrag
     }
     element.onmousedown = adjustFocus
-
-    function adjustFocus() {
-        let totalWindows = String(windows.length)
-        let oldIndex = element.style.zIndex
-
-        windows.forEach(win => {
-            if (win.style.zIndex > oldIndex) {
-                win.style.zIndex -= 1
-            }
-            if (win.style.zIndex < 1) {
-                win.style.zIndex = 1
-            }
-        });
-        element.style.zIndex = totalWindows
-    }
 
     function startDrag (e) {
         element.firstElementChild.style.backgroundColor = "var(--dark-purple)"
@@ -348,4 +376,19 @@ function makeDraggable(element) {
         document.onmouseup = null
         document.onmousemove = null
     }
+}
+function adjustFocus(e) {
+    let topElement = e instanceof Element? e : this
+    let totalWindows = String(windows.length)
+    let oldIndex = topElement.style.zIndex
+
+    windows.forEach(win => {
+        if (win.style.zIndex > oldIndex) {
+            win.style.zIndex -= 1
+        }
+        if (win.style.zIndex < 1) {
+            win.style.zIndex = 1
+        }
+    });
+    topElement.style.zIndex = totalWindows
 }
