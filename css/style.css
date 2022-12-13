@@ -75,7 +75,10 @@ body {
 .splash h1, .splash p {
     color: aliceblue
 }
-
+.splash span {
+    font-style: italic;
+    color: var(--purple);
+}
 .task-bar {
     min-height: 25px;
     width: 100vw;
@@ -95,7 +98,7 @@ body {
 }
 .task {
     background-color: var(--purple);
-    width: 100px;
+    min-width: 100px;
     flex-shrink: 1;
     border: 5px outset var(--purple);
 }
@@ -195,4 +198,18 @@ textarea:focus {
 }
 textarea::-webkit-scrollbar {
     display: none;
+}
+.body-text {
+    color: aliceblue;
+    width: 500px;
+    word-wrap: break-word;
+    min-height: 200px;
+}
+.body-text h1 {
+    font-family:  "Fixedsys Excelsior", "FixedSys", monospace;
+    font-size: 25px;
+}
+.body-text p {
+    font-family:  "Fixedsys Excelsior", "FixedSys", monospace;
+    font-size: 15px;
 }

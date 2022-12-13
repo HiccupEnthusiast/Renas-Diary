@@ -18,6 +18,9 @@ let iTypeExplorer = 0
 let wTypeNotepad = 0
 let iTypeNotepad = 0
 
+let wTypeDoc = 0
+let iTypeDoc = 0
+
 // References and abstracions to DOM objects
 let windows = new Array
 let bar = document.querySelector('.task-bar')
@@ -71,7 +74,7 @@ function createWindow(winType) {
     let closeBtn = document.createElement('button')
     windowTitle.append(closeBtn)
 
-
+    let pTask = document.createElement('p')
 
 
     // Determine window type
@@ -136,6 +139,13 @@ function createWindow(winType) {
         let textArea = document.createElement('textarea')
         textArea.spellcheck = false
         windowContent.append(textArea)
+    } else if (winType.includes('doc_')) {
+        winCounter = ++wTypeDoc
+
+        pTitle.innerText = winType.split('_').splice(1,2).join(' ')
+        pTask.innerText = winType.split('_').splice(1,2).join('_')
+
+        windowContent.append(getDocument(pTitle.innerText.replace(' ', '_')))
     }
     window.id = 'win-' + winType + '-' + winCounter 
     if (pTitle.innerText == '') { pTitle.innerText = window.id }
@@ -149,9 +159,9 @@ function createWindow(winType) {
     barElement.classList.add('task')
     barElement.id = 'task-' + winType + '-' + winCounter
     
-    let pTask = document.createElement('p')
-    pTask.innerText = 
-        winType.charAt(0).toUpperCase() + winType.slice(1).replace('_', ' ')
+    if (pTask.innerText == '') {
+        pTask.innerText = winType.charAt(0).toUpperCase() + winType.slice(1).replace('_', ' ')
+    }
     barElement.append(pTask)
     barElement.addEventListener('mousedown', () => {
         barElement.style.backgroundColor = 'var(--faint-purple)'
@@ -231,6 +241,31 @@ function createError(errType) {
 
     return constructedContent
 }
+function getDocument(doc) {
+    let content = document.createElement('div')
+    content.classList.add('body-text')
+
+    switch (doc) {
+        case 'fkfqfxi_cfkafkdp':
+            let title = document.createElement('h1')
+            let body = document.createElement('p')
+
+            title.innerText = doc.replace('_', ' ')
+            body.innerText = 'Ro··vtaocem"rt-1Mi··iro:nsgo·aua·e·██"ea"soioeitsa,seuasii·l,hwla·ee··ea.T·sh·k·eisfa·vtar·rh·ann·ttewha·bsro·naipenta·toiaeeo·ncdynanwle··d·iptnF·rioaovirosG0006·-6261I2211,G0003·hra····od··itptshu·egcptripgmi·scliotf..-OSFNSGO-Imolkgoa··ritsa·t·totrpo·iaonpc·aaoirl·mcsi,omyiso·vts·aImodntsuomo·eu,··tryuhIa·ohhgtdli·rd·eroieitnoneFe"··ovotser·vtartmpt·n<█>T·w··wnldnh·s··rsleotre·ei·kt·aot·s·hceatet·v··sieitsf·irs·ldeisi·nNi··rc·rca··,nerfclnarcdt··ygti·atbgrnei.omenrtniter·-6251I2211,G0003·-6232·eeritbpvebpveai·rgt·eyansprr·tapi·su··5·-T··VTAR···toi·rrtwknh·sb·g··h·tntsnygsheltnselteoun·wa·m··heoatt··togh·tfywpar·an·a,r,·veu·isoe·taey·ptfnsgi·da·os·0·tefh·ptIeitse·deRa██·hHkin·vv··iceap·u·nryuss·ltehldfhce·ea·sanhleoptnsgo,otseooyecv·trkouomeaptitii·yxafi·dvsoueba·e·lldoaeesco·ro·fmi·s·ptI2212,G0003·-6231I2211.T·wdsoeridyra·retohhan·reh·oawh·eadcno7%·NEOIEIT-"an·onfwdoo··iceuIonoeoi,h·ni·yovui··ayi·nmgh·ntedIa··yh·an·i·io···nlseImocz·g·hengtn··awhla"·' + 
+            '\n\n [2]00[0]1/2[1]20^1/2+1\nxx+x'
+
+            content.style.width = '500px'
+
+            content.append(title)
+            content.append(body)
+            break;
+    
+        default:
+            break;
+    }
+
+    return content
+}
 function getAuthentication(origin) {
     let folder = origin.id.split('-')[1].split('_')[1]
     let window = origin.closest('.window') 
@@ -246,7 +281,9 @@ function getAuthentication(origin) {
         case 'investigations':
             pass = 'sylk'
             break;
-    
+        case '03':
+            pass = 'rena'
+            break;
         default:
             break;
     }
@@ -326,6 +363,9 @@ function getFoldersAt(location) {
             folders.push(createIcon('folder_03'))
             folders.push(createIcon('folder_04'))
             break;
+        case '03':
+            folders.push(createIcon('doc_fkfqfxi_cfkafkdp'))
+            break;
         default:
             let notFound = document.createElement('p')
             notFound.innerText = ' < Nothing to be found here > '
@@ -351,6 +391,7 @@ function createIcon(winType) {
     icon.classList.add('icon')
 
     let img = document.createElement('img')
+    let p = document.createElement('p')
 
 
     if (winType.includes('error')) {
@@ -363,11 +404,21 @@ function createIcon(winType) {
         iCounter = ++iTypeNotepad
 
         img.src = './img/notes.png'
+    } else if (winType.includes('doc_')) {
+        iCounter = ++iTypeDoc
+
+        let a = winType.split('_')
+        a.shift()
+        let fileName = a.join('_') + '.doc'
+        p.innerText = fileName
+
+        img.src = './img/notes.png'
     }
     icon.id = 'icon-' + winType + '-' + iCounter
     
-    let p = document.createElement('p')
-    p.innerText = winType.charAt(0).toUpperCase() + winType.slice(1).replace('_', ' ')
+    if (p.innerText == ''){
+        p.innerText = winType.charAt(0).toUpperCase() + winType.slice(1).replace('_', ' ')
+    }
 
     icon.append(img)
     icon.append(p)
@@ -388,7 +439,10 @@ function createIcon(winType) {
                 return
             }
             
-            if (destination == 'investigations') {
+            if (destination == 'investigations' || destination == '.local' 
+                || destination == 'music' || destination == 'pictures' || destination == '04' 
+                || destination == '00' || destination == '01' || destination == '02' 
+                || destination == '03') {
                 
                 drawWindows(getAuthentication(icon), e.clientX-100, e.clientY-100)
 
