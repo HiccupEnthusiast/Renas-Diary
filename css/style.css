@@ -72,7 +72,7 @@ body {
     transition: opacity 0.5s;
     user-select: none;
 }
-.splash h1 {
+.splash h1, .splash p {
     color: aliceblue
 }
 
