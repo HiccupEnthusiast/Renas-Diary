@@ -12,5 +12,8 @@
     },
     "boot": {
         "lines_color": "#00ff00"
+    },
+    "fonts": {
+        "generic": "'Courier New', Courier, monospace"
     }
 }

@@ -1,0 +1,32 @@
+.iconGrid {
+    display: grid;
+    grid: auto auto auto auto / auto auto auto auto auto;
+    position: absolute;
+    padding: 10px;
+    gap: 5px;
+    user-select: none;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+}
+
+.icon:hover {
+    background-color: var(--accent);
+    cursor: pointer;
+}
+
+.icon img {
+    height: 64px;
+    width: 64px;
+}
+
+.icon p {
+    color: aliceblue;
+    margin: 0;
+    font-size: smaller;
+    text-transform: capitalize;
+}

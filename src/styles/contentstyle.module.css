@@ -1,0 +1,27 @@
+@font-face {
+    font-family: Fixedsys Excelsior;
+    src: url('/FSEX302.ttf');
+}
+
+textarea {
+    margin: 0;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    resize: vertical;
+    width: 500px;
+    height: 300px;
+    color: aliceblue;
+    font-family: "Fixedsys Excelsior", "FixedSys", monospace;
+    border: outset 2px var(--black);
+    background-color: var(--black);
+}
+
+textarea:focus {
+    outline: none;
+    border: inset 2px var(--black);
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
+}

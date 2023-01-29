@@ -1,16 +1,21 @@
 import styles from '../styles/window.module.css'
+import { windowTypes } from './utils'
+import textarea from '../styles/contentstyle.module.css'
 
 type windowArgs = {
-    type: string
+    type: windowTypes
     title?: string
+    id: string
 }
 export class Window {
-    type: string
+    type: windowTypes
     title: string
+    id: string
 
-    constructor({ type, title }: windowArgs) {
+    constructor({ type, title, id }: windowArgs) {
         this.type = type
         title ? this.title = title : this.title = this.type
+        this.id = "win-" + id
     }
 
     private moveWindow(e1: MouseEvent) {
@@ -47,6 +52,7 @@ export class Window {
     private createNode() {
         let window = document.createElement('div')
         window.classList.add(styles.window!)
+        window.id = this.id
 
         window.innerHTML = `
         <div class=${styles.windowTitle}>
@@ -57,7 +63,7 @@ export class Window {
             </div>
         </div>
         <div class=${styles.windowContent}>
-
+            ${getContent(this.type)}
         </div>
         `
 
@@ -67,9 +73,22 @@ export class Window {
         let closeBtn = window.querySelector<HTMLButtonElement>('.closeBtn')
         closeBtn?.addEventListener("click", this.closeWindow)
 
+
         return window;
     }
     render(where: HTMLElement) {
         where.append(this.createNode())
+    }
+}
+function getContent(type: windowTypes): string {
+    switch (type) {
+        case 'notepad': {
+            return `
+                <textarea spellcheck=false class='${textarea}'></textarea>`
+        } default: {
+            return `
+                CONTENT ERROR
+            `
+        }
     }
 }
