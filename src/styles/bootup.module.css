@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;800');
+
+.bootLines {
+    width: 100vw;
+    height: 100vh;
+    z-index: 200;
+
+    background-color: black;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.bootLines>* {
+    user-select: none;
+    list-style: none;
+    color: var(--boot-lines-color);
+    font-size: 11px;
+    font-family: 'Martian Mono';
+    animation: glowFlicker 0.1s linear infinite alternate;
+}
+
+@keyframes glowFlicker {
+    100% {
+        text-shadow:
+            0 0 2px var(--boot-lines-color),
+            0 0 7px var(--boot-lines-color);
+    }
+
+    0% {
+        text-shadow:
+            0 0 1px var(--boot-lines-color),
+            0 0 5px var(--boot-lines-color);
+    }
+}
+
+@media screen and (prefers-reduced-motion) {
+    .bootLines>* {
+        animation: none;
+    }
+}
