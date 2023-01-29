@@ -33,7 +33,7 @@ export class Os {
         return app
     }
     render(where: HTMLElement) {
-        if (this.hasBootSequence) { bootLogs() }
+        if (this.hasBootSequence) { bootLogs(where) }
         where.append(this.createNode())
     }
 }

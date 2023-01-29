@@ -1,4 +1,4 @@
-import { Window } from './modules/windows'
+//import { Window } from './modules/windows'
 import { Splash } from './modules/splash'
 import { initGlobalStyles } from './modules/utils'
 import { Os } from './modules/os'

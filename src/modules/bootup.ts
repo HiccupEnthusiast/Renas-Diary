@@ -1,11 +1,11 @@
 import { fLogs } from './fakelogs'
 import styles from '../styles/bootup.module.css'
 
-export function bootLogs() {
+export function bootLogs(where: HTMLElement) {
 
     let ul = document.createElement('ul')
     ul.classList.add(styles.bootLines!)
-    document.querySelector('body')?.append(ul)
+    where.append(ul)
 
     const lines = fLogs
     let acc = 0
