@@ -41,7 +41,6 @@ export class Splash {
 
         let span = splash.querySelector('span')
         span?.style.setProperty('color', this.emphasis_color)
-        console.log(span)
 
         return splash;
 
