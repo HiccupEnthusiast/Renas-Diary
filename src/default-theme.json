@@ -1,14 +1,14 @@
 {
     "main_colors": {
-        "background": "#000",
+        "background": "rgb(31,31,31)",
         "on_background": "#fff",
         "accent": "#3502c4",
-        "on_accent": "#202020"
+        "on_accent": "#fff"
     },
     "borders": {
-        "style": "groove",
-        "color": "#888888",
-        "size": "2px"
+        "style": "ridge",
+        "color": "rgb(59,54,107)",
+        "size": "5px"
     },
     "boot": {
         "lines_color": "#00ff00"

@@ -1,4 +1,4 @@
-//import { Window } from './modules/windows'
+import { Window } from './modules/windows'
 import { Splash } from './modules/splash'
 import { initGlobalStyles } from './modules/utils'
 import { Os } from './modules/os'
@@ -15,3 +15,5 @@ initGlobalStyles()
 let initial_screen = new Splash({ title: "Welcome back, <span>Rena</span>" })
 initial_screen.render(body!)
 
+let win = new Window({ type: "notepad", title: "Notepad" })
+win.render(body!)

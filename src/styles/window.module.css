@@ -1,3 +1,71 @@
-.a {
-    color: var(--accent);
+.window {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    z-index: 1;
+
+    border: var(--border);
+}
+
+.windowTitle {
+    display: flex;
+    background-color: var(--accent);
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    border-bottom: var(--border);
+    min-height: 30px;
+}
+
+.windowTitle p {
+    margin: 0;
+    margin-left: 10px;
+    font-size: small;
+    user-select: none;
+    color: var(--on_accent);
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons>* {
+    margin: 0;
+    margin-right: 4px;
+    width: 18px;
+    height: 18px;
+    border: 0;
+
+    color: #dddddd;
+
+    background-color: currentColor;
+
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+
+    border-left: 2px solid currentColor;
+    border-top: 2px solid currentColor;
+}
+
+.buttons>*:hover {
+    cursor: pointer;
+}
+
+.buttons>*:active {
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+
+    border-left: 2px solid #000;
+    border-top: 2px solid #000;
+    filter: brightness(0.8);
+}
+
+.windowContent {
+    background-color: var(--background);
+    flex: 10;
+    min-width: 250px;
+    min-height: 50px;
 }

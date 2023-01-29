@@ -9,6 +9,7 @@ export function initGlobalStyles() {
         root.style.setProperty(key, value)
     })
     root.style.setProperty('--boot-lines-color', json.boot.lines_color)
+    root.style.setProperty('--border', `${json.borders.size} ${json.borders.color} ${json.borders.style}`)
 
     root.style.overflow = "hidden"
 }

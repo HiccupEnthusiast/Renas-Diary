@@ -1,17 +1,75 @@
-import classes from '../styles/window.module.css'
+import styles from '../styles/window.module.css'
 
+type windowArgs = {
+    type: string
+    title?: string
+}
 export class Window {
-    type: String;
-    /**
-     *
-     */
-    constructor({ type }: { type: String }) {
+    type: string
+    title: string
+
+    constructor({ type, title }: windowArgs) {
         this.type = type
+        title ? this.title = title : this.title = this.type
     }
-    yes() {
-        let a = document.createElement('p')
-        a.innerText = "b"
-        a.classList.add(classes.a!)
-        document.querySelector('body')?.append(a)
+
+    private moveWindow(e1: MouseEvent) {
+        let x1: number, y1: number, x2: number, y2: number;
+        x1 = e1.clientX
+        y1 = e1.clientY
+
+        let win = (<HTMLElement>e1.currentTarget).parentElement
+
+        let start = (e2: MouseEvent) => {
+            if (win) {
+                x2 = x1 - e2.clientX
+                y2 = y1 - e2.clientY
+                x1 = e2.clientX
+                y1 = e2.clientY
+
+                win.style.left = `${win.offsetLeft - x2}px`
+                win.style.top = `${win.offsetTop - y2}px`
+            }
+        }
+        let end = () => {
+            document.removeEventListener('mousemove', start)
+            document.removeEventListener('mouseup', end)
+        }
+
+        document.addEventListener('mousemove', start)
+        document.addEventListener('mouseup', end)
+    }
+    private closeWindow(e: MouseEvent) {
+        let win = (<HTMLElement>e.currentTarget).closest('.' + styles.window)
+        win?.remove()
+    }
+
+    private createNode() {
+        let window = document.createElement('div')
+        window.classList.add(styles.window!)
+
+        window.innerHTML = `
+        <div class=${styles.windowTitle}>
+            <p>${this.title}</p>
+            <div class=${styles.buttons}>
+                <button></button
+                ><button class=closeBtn></button>
+            </div>
+        </div>
+        <div class=${styles.windowContent}>
+
+        </div>
+        `
+
+        let title = window.querySelector<HTMLDivElement>('.' + styles.windowTitle)
+        title?.addEventListener("mousedown", this.moveWindow)
+
+        let closeBtn = window.querySelector<HTMLButtonElement>('.closeBtn')
+        closeBtn?.addEventListener("click", this.closeWindow)
+
+        return window;
+    }
+    render(where: HTMLElement) {
+        where.append(this.createNode())
     }
 }
