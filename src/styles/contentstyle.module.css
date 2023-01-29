@@ -11,15 +11,15 @@ textarea {
     resize: vertical;
     width: 500px;
     height: 300px;
-    color: aliceblue;
+    color: var(--on_background);
     font-family: "Fixedsys Excelsior", "FixedSys", monospace;
-    border: outset 2px var(--black);
-    background-color: var(--black);
+    border: outset 2px var(--background);
+    background-color: var(--background);
 }
 
 textarea:focus {
     outline: none;
-    border: inset 2px var(--black);
+    border: inset 2px var(--background);
 }
 
 textarea::-webkit-scrollbar {
