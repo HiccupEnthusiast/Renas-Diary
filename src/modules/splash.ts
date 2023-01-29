@@ -3,14 +3,23 @@ import styles from '../styles/splash.module.css'
 type splashArgs = {
     title: string,
     subtitle?: string,
+    emphasis_color?: string,
 }
 export class Splash {
     title: string
     subtitle: string
+    emphasis_color: string
 
-    constructor({ title, subtitle = "< Click anywhere to close >" }: splashArgs) {
+
+    constructor(
+        {
+            title,
+            emphasis_color = "var(--accent)",
+            subtitle = "< Click anywhere to close >"
+        }: splashArgs) {
         this.title = title;
         this.subtitle = subtitle
+        this.emphasis_color = emphasis_color
     }
     private handleClick() {
         let ref = document.querySelector<HTMLDivElement>("." + styles.splash!)
@@ -29,6 +38,11 @@ export class Splash {
             <h1>${this.title}</h1>
             <p>${this.subtitle}</p>
         `
+
+        let span = splash.querySelector('span')
+        span?.style.setProperty('color', this.emphasis_color)
+        console.log(span)
+
         return splash;
 
     }
