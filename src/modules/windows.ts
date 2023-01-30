@@ -45,12 +45,8 @@ export class Window {
         document.addEventListener('mousemove', start)
         document.addEventListener('mouseup', end)
     }
-    closeWindow = (e: MouseEvent) => {
-        let win = (<HTMLElement>e.currentTarget).closest('.' + styles.window)
-        killWindow(win!.id.replace('win-', ''))
-    }
 
-    private createNode() {
+    createNode = () => {
         let window = document.createElement('div')
         window.classList.add(styles.window!)
         window.id = this.id
@@ -72,8 +68,12 @@ export class Window {
         title?.addEventListener("mousedown", this.moveWindow)
 
         let closeBtn = window.querySelector<HTMLButtonElement>('.' + styles.closeBtn!)
-        closeBtn?.addEventListener("click", this.closeWindow)
+        closeBtn?.addEventListener("mousedown", (e) => { e.stopPropagation() }, true)
+        closeBtn?.addEventListener("mouseup", () => {
+            killWindow(this.id.replace('win-', ''))
+        }, true)
 
+        window.addEventListener('click', () => { changeFocus(this) })
 
         return window;
     }
