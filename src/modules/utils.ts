@@ -1,6 +1,7 @@
 import json from '../default-theme.json'
 import { Window } from './windows'
 import { Task } from './tasks'
+import winStyles from '../styles/window.module.css'
 
 export let idRegistry: string[] = new Array
 
@@ -60,8 +61,13 @@ export function changeFocus(newFocus: Window) {
     let wins = document.querySelectorAll<HTMLDivElement>('[id^="win-"]')
     for (let i = 0; i < wins.length; i++) {
         const win = wins[i]
-        const pos = idRegistry.indexOf(win!.id.replace('win-', ''))
-        win!.style.zIndex = String(pos)
+        const index = idRegistry.indexOf(win!.id.replace('win-', ''))
+        win!.style.zIndex = String(index)
+        if (index === wins.length - 1) {
+            win?.classList.remove(winStyles.unfocused!)
+        } else {
+            win?.classList.add(winStyles.unfocused!)
+        }
     }
 }
 

@@ -9,6 +9,7 @@
     top: 20%;
 
     border: var(--border);
+    transition: filter 250ms;
 }
 
 .windowTitle {
@@ -81,4 +82,8 @@
     flex: 10;
     min-width: 250px;
     min-height: 50px;
+}
+
+.unfocused {
+    filter: saturate(0.4) grayscale(0.9) brightness(0.8);
 }
