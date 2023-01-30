@@ -44,8 +44,10 @@ export class Window {
         document.addEventListener('mousemove', start)
         document.addEventListener('mouseup', end)
     }
-    private closeWindow(e: MouseEvent) {
+    closeWindow = (e: MouseEvent) => {
         let win = (<HTMLElement>e.currentTarget).closest('.' + styles.window)
+        let task = document.querySelector('#' + this.id.replace("win-", "task-"))
+        task?.remove()
         win?.remove()
     }
 

@@ -15,5 +15,13 @@
     },
     "fonts": {
         "generic": "'Courier New', Courier, monospace"
+    },
+    "tasks": {
+        "has_tasks": true,
+        "mode": "full",
+        "container_color": "#535353",
+        "container_border": "5px #3c3c3c ridge",
+        "task_color": "#393939",
+        "task_active": "#f0f"
     }
 }

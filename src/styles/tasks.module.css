@@ -1,0 +1,47 @@
+.taskbar {
+    width: 100vw;
+    margin: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    z-index: 48;
+
+    display: flex;
+    gap: 5px;
+
+    padding-right: 5px;
+    padding-left: 5px;
+    align-items: center;
+    height: clamp(35px, 5vh, 100px);
+    background-color: var(--container_color);
+    border-top: var(--container_border)
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    width: clamp(200px, 10vw, 300px);
+    flex-shrink: 2;
+    height: calc(clamp(35px, 5vh, 100px) - 10px);
+    color: var(--task_color);
+    background-color: currentColor;
+    border-top: 3px currentColor solid;
+    border-left: 3px currentColor solid;
+    border-bottom: 4px black solid;
+    border-right: 3px black solid;
+}
+
+.task p {
+    user-select: none;
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-size: small;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+}
