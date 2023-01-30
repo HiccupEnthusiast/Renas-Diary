@@ -59,7 +59,7 @@ export class Window {
             <p>${this.title}</p>
             <div class=${styles.buttons}>
                 <button></button
-                ><button class=closeBtn></button>
+                ><button class=${styles.closeBtn}></button>
             </div>
         </div>
         <div class=${styles.windowContent}>
@@ -70,7 +70,7 @@ export class Window {
         let title = window.querySelector<HTMLDivElement>('.' + styles.windowTitle)
         title?.addEventListener("mousedown", this.moveWindow)
 
-        let closeBtn = window.querySelector<HTMLButtonElement>('.closeBtn')
+        let closeBtn = window.querySelector<HTMLButtonElement>('.' + styles.closeBtn!)
         closeBtn?.addEventListener("click", this.closeWindow)
 
 

@@ -47,6 +47,8 @@
     color: #7d7d7d;
 
     background-color: currentColor;
+    background-repeat: no-repeat;
+    background-position: center;
 
     border-right: 2px solid #000;
     border-bottom: 2px solid #000;
@@ -62,10 +64,16 @@
 .buttons>*:active {
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
+    background-position-x: calc(50% + 1px);
+    background-position-y: calc(50% + 1px);
 
     border-left: 2px solid #000;
     border-top: 2px solid #000;
     filter: brightness(0.8);
+}
+
+.closeBtn {
+    background-image: url(/close-icon.png);
 }
 
 .windowContent {
