@@ -26,11 +26,11 @@ export class Icon {
                 case 'open-window':
                     let { win, task } = getWindowTaskPair(this.open)
                     win.render(document.body)
-                    changeFocus(win)
                     let taskbar = document.querySelector('.taskbar')
                     if (taskbar) {
                         task.render()
                     }
+                    changeFocus(win)
                     break;
                 case 'open-folder':
                     break;

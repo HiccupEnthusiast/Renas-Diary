@@ -1,7 +1,9 @@
 import json from '../default-theme.json'
 import { Window } from './windows'
 import { Task } from './tasks'
+
 import winStyles from '../styles/window.module.css'
+import taskStyles from '../styles/tasks.module.css'
 
 export let idRegistry: string[] = new Array
 
@@ -65,8 +67,11 @@ export function changeFocus(newFocus: Window) {
         win!.style.zIndex = String(index)
         if (index === wins.length - 1) {
             win?.classList.remove(winStyles.unfocused!)
+            document.querySelector('#task-' + id)?.classList.add(taskStyles.active!)
         } else {
             win?.classList.add(winStyles.unfocused!)
+            document.querySelector('#task-' + win?.id.replace('win-', ''))?.classList.remove(taskStyles.active!)
+
         }
     }
 }

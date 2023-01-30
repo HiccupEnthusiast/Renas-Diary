@@ -45,3 +45,15 @@
     text-overflow: ellipsis;
     text-transform: capitalize;
 }
+
+.active {
+    border-top: 3px black solid;
+    border-left: 3px black solid;
+    border-bottom: 4px currentColor solid;
+    border-right: 5px currentColor solid;
+    filter: brightness(0.7);
+}
+
+.active>* {
+    transform: translate(4px, 2px);
+}
