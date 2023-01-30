@@ -64,10 +64,11 @@ export class IconGrid {
         this.domRef = null
     }
 
-    private createNode() {
+    createNode = () => {
         let grid = document.createElement('div')
         grid.classList.add(styles.iconGrid!)
 
+        this.domRef = grid
         return grid
     }
     newIcon(args: IconArgs) {
@@ -80,6 +81,5 @@ export class IconGrid {
     render(where: HTMLElement) {
         let g = this.createNode()
         where.append(g)
-        this.domRef = g
     }
 }
