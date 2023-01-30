@@ -55,8 +55,13 @@ export function killWindow(id: string) {
     if (i === -1) { return }
     idRegistry.splice(i, 1)
 }
-export function changeFocus(newFocus: Window) {
-    let id = newFocus.id.replace('win-', '')
+export function changeFocus(newFocus: Window | string) {
+    let id: string;
+    if (typeof newFocus === 'string') {
+        id = newFocus
+    } else {
+        id = newFocus.id.replace('win-', '')
+    }
     let focusWindow = idRegistry.indexOf(id)
     idRegistry.push(idRegistry.splice(focusWindow, 1)[0]!)
 
