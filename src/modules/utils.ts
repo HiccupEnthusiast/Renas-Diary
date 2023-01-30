@@ -2,6 +2,8 @@ import json from '../default-theme.json'
 import { Window } from './windows'
 import { Task } from './tasks'
 
+export let idRegistry: string[] = new Array
+
 export function initGlobalStyles() {
 
     let root = document.documentElement
@@ -37,8 +39,30 @@ export function getWindowTaskPair(type: windowTypes) {
     let win = new Window({ type: type, id: id })
     let task = new Task({ title: type, id: id })
 
+    idRegistry.push(id)
 
     return { win: win, task: task }
+}
+export function killWindow(id: string) {
+    let win = document.querySelector('#win-' + id)
+    let task = document.querySelector('#task-' + id)
+    win?.remove()
+    task?.remove()
+    let i = idRegistry.indexOf(id)
+    if (i === -1) { return }
+    idRegistry.splice(i, 1)
+}
+export function changeFocus(newFocus: Window) {
+    let id = newFocus.id.replace('win-', '')
+    let focusWindow = idRegistry.indexOf(id)
+    idRegistry.push(idRegistry.splice(focusWindow, 1)[0]!)
+
+    let wins = document.querySelectorAll<HTMLDivElement>('[id^="win-"]')
+    for (let i = 0; i < wins.length; i++) {
+        const win = wins[i]
+        const pos = idRegistry.indexOf(win!.id.replace('win-', ''))
+        win!.style.zIndex = String(pos)
+    }
 }
 
 export type windowTypes = 'notepad' | 'explorer'

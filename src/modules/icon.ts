@@ -1,5 +1,5 @@
 import styles from '../styles/icon.module.css'
-import { getWindowTaskPair, windowTypes } from './utils'
+import { getWindowTaskPair, windowTypes, changeFocus } from './utils'
 
 type IconArgs = {
     action: "open-window" | "open-folder"
@@ -26,6 +26,7 @@ export class Icon {
                 case 'open-window':
                     let { win, task } = getWindowTaskPair(this.open)
                     win.render(document.body)
+                    changeFocus(win)
                     let taskbar = document.querySelector('.taskbar')
                     if (taskbar) {
                         task.render()

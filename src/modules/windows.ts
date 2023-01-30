@@ -1,5 +1,5 @@
 import styles from '../styles/window.module.css'
-import { windowTypes } from './utils'
+import { windowTypes, killWindow, changeFocus } from './utils'
 import textarea from '../styles/contentstyle.module.css'
 
 type windowArgs = {
@@ -18,12 +18,13 @@ export class Window {
         this.id = "win-" + id
     }
 
-    private moveWindow(e1: MouseEvent) {
+    moveWindow = (e1: MouseEvent) => {
         let x1: number, y1: number, x2: number, y2: number;
         x1 = e1.clientX
         y1 = e1.clientY
 
         let win = (<HTMLElement>e1.currentTarget).parentElement
+        changeFocus(this)
 
         let start = (e2: MouseEvent) => {
             if (win) {
@@ -46,9 +47,7 @@ export class Window {
     }
     closeWindow = (e: MouseEvent) => {
         let win = (<HTMLElement>e.currentTarget).closest('.' + styles.window)
-        let task = document.querySelector('#' + this.id.replace("win-", "task-"))
-        task?.remove()
-        win?.remove()
+        killWindow(win!.id.replace('win-', ''))
     }
 
     private createNode() {
