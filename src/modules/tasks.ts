@@ -1,4 +1,5 @@
 import styles from '../styles/tasks.module.css'
+import { changeFocus } from './utils'
 
 type TaskArgs = {
     title: string
@@ -19,6 +20,8 @@ export class Task {
         task.innerHTML = `
             <p>${this.title}</p>    
         `
+
+        task.addEventListener('click', () => { changeFocus(this.id.replace('task-', '')) })
 
         return task
     }
