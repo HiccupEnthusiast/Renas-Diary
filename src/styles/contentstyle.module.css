@@ -3,7 +3,7 @@
     src: url('/FSEX302.ttf');
 }
 
-textarea {
+.textarea {
     margin: 0;
 
     scrollbar-width: none;
@@ -17,11 +17,11 @@ textarea {
     background-color: var(--background);
 }
 
-textarea:focus {
+.textarea:focus {
     outline: none;
     border: inset 2px var(--background);
 }
 
-textarea::-webkit-scrollbar {
+.textarea::-webkit-scrollbar {
     display: none;
 }

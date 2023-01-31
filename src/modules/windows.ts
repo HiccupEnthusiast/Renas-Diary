@@ -1,6 +1,6 @@
 import styles from '../styles/window.module.css'
 import { windowTypes, killWindow, changeFocus } from './utils'
-import textarea from '../styles/contentstyle.module.css'
+import contentStyles from '../styles/contentstyle.module.css'
 
 type windowArgs = {
     type: windowTypes
@@ -59,10 +59,13 @@ export class Window {
                 ><button class=${styles.closeBtn}></button>
             </div>
         </div>
-        <div class=${styles.windowContent}>
-            ${getContent(this.type)}
-        </div>
         `
+        let contDiv = document.createElement('div')
+        contDiv.classList.add(styles.windowContent!)
+        window.append(contDiv)
+
+        let content = getContent(this.type)
+        contDiv.append(content)
 
         let title = window.querySelector<HTMLDivElement>('.' + styles.windowTitle)
         title?.addEventListener("mousedown", this.moveWindow)
@@ -81,11 +84,14 @@ export class Window {
         where.append(this.createNode())
     }
 }
-function getContent(type: windowTypes): string {
+function getContent(type: windowTypes) {
     switch (type) {
         case windowTypes.Notepad: {
-            return `
-                <textarea spellcheck=false class='${textarea}'></textarea>`
+            let txt = document.createElement('textarea')
+            txt.spellcheck = false
+            txt.classList.add(contentStyles.textarea!)
+
+            return txt
         } default: {
             return `
                 CONTENT ERROR
