@@ -69,7 +69,7 @@ export function changeFocus(newFocus: Window | string) {
     for (let i = 0; i < wins.length; i++) {
         const win = wins[i]
         const index = idRegistry.indexOf(win!.id.replace('win-', ''))
-        win!.style.zIndex = String(index)
+        win!.style.zIndex = String(index + 1)
         if (index === wins.length - 1) {
             win?.classList.remove(winStyles.unfocused!)
             document.querySelector('#task-' + id)?.classList.add(taskStyles.active!)

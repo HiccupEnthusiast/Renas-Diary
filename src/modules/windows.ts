@@ -89,6 +89,7 @@ function getContent(type: windowTypes) {
         case windowTypes.Notepad: {
             let txt = document.createElement('textarea')
             txt.spellcheck = false
+            txt.placeholder = '< Click me! >'
             txt.classList.add(contentStyles.textarea!)
 
             return txt

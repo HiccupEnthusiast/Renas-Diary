@@ -16,6 +16,7 @@ os.render(body!)
 let initial_screen = new Splash({ title: "Welcome back, <span>Rena</span>" })
 setTimeout(() => {
     initial_screen.render(body!)
+    os.iconGrid.newIcon({ action: "open-window", open: windowTypes.Explorer, icon: "/folder.png" })
     os.iconGrid.newIcon({ action: "open-window", open: windowTypes.Notepad, icon: "/notes.png" })
 }, 500)
 
