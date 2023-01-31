@@ -40,7 +40,7 @@ export function uid() {
 export function getWindowTaskPair(type: windowTypes) {
     let id = uid()
     let win = new Window({ type: type, id: id })
-    let task = new Task({ title: type, id: id })
+    let task = new Task({ title: type.toString(), id: id })
 
     idRegistry.push(id)
 
@@ -81,4 +81,7 @@ export function changeFocus(newFocus: Window | string) {
     }
 }
 
-export type windowTypes = 'notepad' | 'explorer'
+export const enum windowTypes {
+    Notepad = 'notepad',
+    Explorer = 'explorer',
+}

@@ -14,7 +14,7 @@ export class Window {
 
     constructor({ type, title, id }: windowArgs) {
         this.type = type
-        title ? this.title = title : this.title = this.type
+        title ? this.title = title : this.title = this.type.toString()
         this.id = "win-" + id
     }
 
@@ -83,7 +83,7 @@ export class Window {
 }
 function getContent(type: windowTypes): string {
     switch (type) {
-        case 'notepad': {
+        case windowTypes.Notepad: {
             return `
                 <textarea spellcheck=false class='${textarea}'></textarea>`
         } default: {

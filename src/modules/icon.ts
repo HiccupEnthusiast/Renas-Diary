@@ -25,7 +25,10 @@ export class Icon {
             switch (this.action) {
                 case 'open-window':
                     let { win, task } = getWindowTaskPair(this.open)
-                    win.render(document.body)
+                    let winMan = document.querySelector<HTMLDivElement>('.windows');
+
+                    (winMan) ? win.render(winMan) : win.render(document.body)
+
                     let taskbar = document.querySelector('.taskbar')
                     if (taskbar) {
                         task.render()
