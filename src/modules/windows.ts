@@ -45,9 +45,6 @@ export class Window {
         document.addEventListener('mousemove', start)
         document.addEventListener('mouseup', end)
     }
-    private resizeWindow(e: MouseEvent) {
-
-    }
 
     createNode = () => {
         let window = document.createElement('div')
@@ -140,6 +137,9 @@ function createHandles(el: HTMLDivElement) {
             x1 = e1.clientX
             y1 = e1.clientY
 
+            let minw = Number(getComputedStyle(el).minWidth.match(/\d+/)![0])
+            let minh = Number(getComputedStyle(el).minHeight.match(/\d+/)![0])
+
             changeFocus(el.id.replace('win-', ''))
 
             let start = (e2: MouseEvent) => {
@@ -156,6 +156,22 @@ function createHandles(el: HTMLDivElement) {
                         case 'br':
                             el.style.width = `${cw - x2}px`
                             el.style.height = `${ch - y2}px`
+                            break;
+                        case 'bl':
+                            el.style.width = `${cw + x2}px`
+                            el.style.height = `${ch - y2}px`
+                            if (cw !== minw) el.style.left = `${el.offsetLeft - x2}px`
+                            break;
+                        case 'tr':
+                            el.style.width = `${cw - x2}px`
+                            el.style.height = `${ch + y2}px`
+                            if (ch !== minh) el.style.top = `${el.offsetTop - y2}px`
+                            break;
+                        case 'tl':
+                            el.style.width = `${cw + x2}px`
+                            el.style.height = `${ch + y2}px`
+                            if (cw !== minw) el.style.left = `${el.offsetLeft - x2}px`
+                            if (ch !== minh) el.style.top = `${el.offsetTop - y2}px`
                             break;
                         default:
                             break;
