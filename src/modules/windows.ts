@@ -60,12 +60,8 @@ export class Window {
             </div>
         </div>
         `
-        let contDiv = document.createElement('div')
-        contDiv.classList.add(styles.windowContent!)
-        window.append(contDiv)
-
         let content = getContent(this.type)
-        contDiv.append(content)
+        window.append(content)
 
         let title = window.querySelector<HTMLDivElement>('.' + styles.windowTitle)
         title?.addEventListener("mousedown", this.moveWindow)
@@ -89,12 +85,23 @@ export class Window {
 function getContent(type: windowTypes) {
     switch (type) {
         case windowTypes.Notepad: {
-            let txt = document.createElement('textarea')
-            txt.spellcheck = false
-            txt.placeholder = '< Click me! >'
-            txt.classList.add(contentStyles.textarea!)
+            let container = document.createElement('div')
+            container.classList.add(styles.windowContent!)
+            container.innerHTML = `
+                <div style='display:flex;'><input class=${contentStyles.input}></input><button class='${contentStyles.button}'>Set font size</button></div>
+                <textarea class=${contentStyles.textarea} spellcheck=false placeholder='< Click me! >'
+                ></textarea>
+            `
+            let setSize = () => {
+                let input = container.querySelector<HTMLInputElement>('.' + contentStyles.input)?.value.match(/\d+/)
+                if (input) {
+                    let size = Number(input[0])
+                    container.querySelector<HTMLAreaElement>('.' + contentStyles.textarea)!.style.fontSize = size + 'px'
+                }
+            }
+            container.querySelector<HTMLButtonElement>('.' + contentStyles.button)!.addEventListener('click', setSize)
 
-            return txt
+            return container
         } default: {
             return `
                 CONTENT ERROR
