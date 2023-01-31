@@ -8,6 +8,12 @@
     left: 20%;
     top: 20%;
 
+    min-width: 200px;
+    min-height: 100px;
+
+    width: 500px;
+    height: 250px;
+
     border: var(--border);
     transition: filter 250ms;
 }
@@ -17,7 +23,7 @@
     background-color: var(--accent);
     align-items: center;
     justify-content: space-between;
-    flex: 1;
+    flex: 0;
     border-bottom: var(--border);
     min-height: 30px;
 }
@@ -79,9 +85,7 @@
 
 .windowContent {
     background-color: var(--background);
-    flex: 10;
-    min-width: 250px;
-    min-height: 50px;
+    flex: 1;
 }
 
 .unfocused {
